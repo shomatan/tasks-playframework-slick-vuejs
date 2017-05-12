@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+
+  mariadb:
+    container_name: mariadbmariadb
+    image: mariadb:10.1.22
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      MYSQL_USER:     user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: db

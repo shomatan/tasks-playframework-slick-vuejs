@@ -14,7 +14,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.play"      %% "play-slick-evolutions" % "2.0.0",
   "com.h2database"         % "h2"                     % "1.4.187",
   "org.webjars"            %% "webjars-play"          % "2.5.0",
-  "org.webjars"            %  "vue"                   % "2.1.3"
+  "org.webjars"            %  "vue"                   % "2.1.3",
+  "mysql"                  %  "mysql-connector-java"  % "5.1.36"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
