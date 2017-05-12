@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-  <title>TODO App</title>
-  <script type="text/javascript" src='@routes.Assets.versioned("lib/vue/vue.js")'></script>
-
+    <meta charset="UTF-8">
+    <title>TODO App</title>
+    <script type="text/javascript" src='@routes.Assets.versioned("lib/vue/vue.js")'></script>
   </head>
   <body>
     <div id="app">
-      <app></app>
+      <p>{{ message }}</p>
+      <input v-model="message">
     </div>
+  <script type="text/javascript" src='@routes.Assets.versioned("js/main.js")'></script>
   </body>
 </html>
