@@ -2,25 +2,25 @@ package controllers
 
 import javax.inject._
 
-import models.Todo
+import models.Task
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
-import repositories.TodoRepository
+import repositories.TaskRepository
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class TodoController @Inject()(todoRepository: TodoRepository) extends Controller {
+class TaskController @Inject()(taskRepository: TaskRepository) extends Controller {
 
-  implicit val todoWrites = Json.writes[Todo]
+  implicit val todoWrites = Json.writes[Task]
 
   def index = Action {
     Ok(views.html.index())
   }
 
   def all = Action.async { implicit request =>
-    todoRepository.all().map { case (todos) =>
-      val json = Json.toJson(todos)
+    taskRepository.all().map { case (tasks) =>
+      val json = Json.toJson(tasks)
       Ok(json)
     }
   }
