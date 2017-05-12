@@ -15,6 +15,7 @@ libraryDependencies ++= Seq(
   "com.h2database"         % "h2"                     % "1.4.187",
   "org.webjars"            %% "webjars-play"          % "2.5.0",
   "org.webjars"            %  "vue"                   % "2.1.3",
+  "org.webjars.bower"      %  "vue-router"            % "2.2.1",
   "mysql"                  %  "mysql-connector-java"  % "5.1.36"
 )
 
