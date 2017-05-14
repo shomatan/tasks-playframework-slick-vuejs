@@ -14,6 +14,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play"      %% "play-slick-evolutions" % "2.0.0",
   "com.h2database"         % "h2"                     % "1.4.187",
   "org.webjars"            %% "webjars-play"          % "2.5.0",
+  "org.webjars.bower"      %  "bootstrap"             % "3.3.7" exclude("org.webjars", "jquery"),
   "org.webjars.bower"      %  "vue"                   % "2.2.1",
   "org.webjars.bower"      %  "vue-router"            % "2.2.1",
   "org.webjars.bower"      %  "axios"                 % "0.16.1",
