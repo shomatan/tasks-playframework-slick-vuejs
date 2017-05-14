@@ -10,16 +10,28 @@
     <script type="text/javascript" src='@routes.Assets.versioned("lib/axios/dist/axios.js")'></script>
   </head>
   <body>
-    <table id="app" style="display:none">
-      <tr>
-        <td>Title</td>
-        <td>Created at</td>
-      </tr>
-      <tr v-for="value in tasks">
-        <td>{{ value.title }}</td>
-        <td>{{ value.createdAt }}</td>
-      </tr>
-    </table>
+    <div id="app">
+      <router-link to="/">Top page</router-link>
+      <router-view></router-view>
+    </div>
+    <script type="x-template" id="task-list">
+      <div>
+        <div class="loading" v-if="isLoading">Loading...</div>
+        <div v-if="error" class="error">
+          {{ error }}
+        </div>
+        <table>
+          <tr>
+            <td>Title</td>
+            <td>Created at</td>
+          </tr>
+          <tr v-for="value in tasks">
+            <td>{{ value.title }}</td>
+            <td>{{ value.createdAt }}</td>
+          </tr>
+        </table>
+      </div>
+    </script>
     <script type="text/javascript" src='@routes.Assets.versioned("js/main.js")'></script>
   </body>
 </html>
