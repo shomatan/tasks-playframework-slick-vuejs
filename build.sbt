@@ -16,6 +16,7 @@ libraryDependencies ++= Seq(
   "org.webjars"            %% "webjars-play"          % "2.5.0",
   "org.webjars.bower"      %  "vue"                   % "2.2.1",
   "org.webjars.bower"      %  "vue-router"            % "2.2.1",
+  "org.webjars.bower"      %  "axios"                 % "0.16.1",
   "mysql"                  %  "mysql-connector-java"  % "5.1.36"
 )
 

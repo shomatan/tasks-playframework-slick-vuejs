@@ -5,12 +5,19 @@
     <title>TODO App</title>
     <script type="text/javascript" src='@routes.Assets.versioned("lib/vue/vue.js")'></script>
     <script type="text/javascript" src='@routes.Assets.versioned("lib/vue-router/dist/vue-router.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.versioned("lib/axios/dist/axios.js")'></script>
   </head>
   <body>
-    <div id="app">
-      <p>{{ message }}</p>
-      <input v-model="message">
-    </div>
-  <script type="text/javascript" src='@routes.Assets.versioned("js/main.js")'></script>
+    <table id="app" style="display:none">
+      <tr>
+        <td>Title</td>
+        <td>Created at</td>
+      </tr>
+      <tr v-for="value in tasks">
+        <td>{{ value.title }}</td>
+        <td>{{ value.createdAt }}</td>
+      </tr>
+    </table>
+    <script type="text/javascript" src='@routes.Assets.versioned("js/main.js")'></script>
   </body>
 </html>
