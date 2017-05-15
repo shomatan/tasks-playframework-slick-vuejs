@@ -2,6 +2,7 @@
     <div>
         <div class="heading">
             <h1>My TODO!</h1>
+            <img class="logo" src="../images/top.png" />
         </div>
 
         <div class="alert alert-info">

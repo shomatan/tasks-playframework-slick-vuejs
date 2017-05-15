@@ -9,7 +9,14 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.vue$/, loader: 'vue-loader' }
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.png$/,
+        loader: "url-loader?mimetype=image/png"
+      }
     ]
   },
   resolve: {
