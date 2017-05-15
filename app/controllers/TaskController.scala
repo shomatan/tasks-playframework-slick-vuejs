@@ -18,7 +18,7 @@ class TaskController @Inject()(taskRepository: TaskRepository) extends Controlle
     Ok(views.html.index())
   }
 
-  def all = Action.async { implicit request =>
+  def tasks = Action.async { implicit request =>
     taskRepository.all().map { case (tasks) =>
       val json = Json.toJson(tasks)
       Ok(json)
