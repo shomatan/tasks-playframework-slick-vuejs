@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App.vue'
+import Home from './components/Home.vue'
 
 import VueRouter from 'vue-router'
 
@@ -9,16 +10,19 @@ Vue.config.productionTip = false
 
 Vue.use(VueRouter)
 
-const router = new VueRouter()
-
 // Pointing routes to the components they should use
-router.map({
-
+var router = new VueRouter({
+    routes: [
+        {
+            path: '/',
+            component: Home
+        }
+    ]
 })
 
-// Any invalid route will redirect to home
-router.redirect({
-  '*': '/'
+new Vue({
+    el: '#app',
+    router,
+    template: '<App/>',
+    components: { App }
 })
-
-router.start(App, '#app')

@@ -11,5 +11,14 @@ module.exports = {
     loaders: [
       { test: /\.vue$/, loader: 'vue-loader' }
     ]
+  },
+  resolve: {
+    extensions: ['.js', '.vue'],
+    modules: [
+        "node_modules"
+    ],
+    alias: {
+        vue: 'vue/dist/vue.common.js'
+    }
   }
 }
