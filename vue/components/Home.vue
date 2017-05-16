@@ -80,6 +80,7 @@
                     .then(function (response) {
                         self.tasks = response.data
                         self.isLoading = false
+
                     })
                     .catch(function (error) {
                         self.fetchError = error
