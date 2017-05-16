@@ -12,7 +12,8 @@ class JsRouter extends Controller {
         TaskController.tasks,
         TaskController.addTask,
         TaskController.edit,
-        TaskController.editTask
+        TaskController.editTask,
+        TaskController.deleteTask
       )
     ).as("text/javascript")
   }

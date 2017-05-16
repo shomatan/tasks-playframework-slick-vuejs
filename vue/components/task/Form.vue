@@ -23,7 +23,7 @@
         created: function () {
             var self = this
             if (typeof self.$route.params.taskId !== 'undefined') {
-                var m = jsRoutes.controllers.TaskController.edit(this.$route.params.taskId);
+                var m = jsRoutes.controllers.TaskController.edit(this.$route.params.taskId)
                 console.log("hello lady:" + m.url)
 
                 axios.get(m.url)
@@ -31,7 +31,7 @@
                         self.task = response.data
                     })
                     .catch(function (error) {
-                        console.log(error);
+                        console.log(error)
                     })
             }
         },
@@ -53,23 +53,26 @@
                 axios.post(m(self.task).url, self.task)
                     .then(function (response) {
                         console.log("Task saved!")
-                        self.$router.push({ name: 'home' } );
+                        self.$router.push({ name: 'home' } )
                     })
                     .catch(function (error) {
                         console.log(error)
                     })
             },
-            deletePhrase (id) {
+            deleteTask (id) {
+                var self = this
                 console.log("in delete:" + id);
-                var m = jsRoutes.controllers.HomeController.deletePhrase(id);
+                var m = jsRoutes.controllers.TaskController.deleteTask(id);
                 console.log("url:" + m.url);
 
-                this.$http.delete(m.url).then(function(response) {
-                    console.log("Phrase deleted!");
-                    this.$router.go('/home');
-                }).catch(function(error) {
-                    console.log("has error" + error);
-                });
+                axios.delete(m.url)
+                    .then(function (response) {
+                        console.log("Task deleted!")
+                        self.$router.push({ name: 'home' } )
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
             }
         }
     }

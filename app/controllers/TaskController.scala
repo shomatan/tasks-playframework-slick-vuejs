@@ -64,4 +64,10 @@ class TaskController @Inject()(taskRepository: TaskRepository) extends Controlle
     val task: Task = taskForm.bindFromRequest.get
     taskRepository.update(id, task).map(_ => Ok("success"))
   }
+
+  def deleteTask(id: Long) = Action.async { implicit rs =>
+    for {
+      _ <- taskRepository.delete(id)
+    } yield Ok("success")
+  }
 }
