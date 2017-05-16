@@ -9,7 +9,8 @@ class JsRouter extends Controller {
     import routes.javascript._
     Ok(
       JavaScriptReverseRouter("jsRoutes")(
-        TaskController.tasks
+        TaskController.tasks,
+        TaskController.addTask
       )
     ).as("text/javascript")
   }

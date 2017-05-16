@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Vue from 'vue'
 import App from './App.vue'
 import Home from './components/Home.vue'
+import Add from './components/task/Add.vue'
 
 import VueRouter from 'vue-router'
 
@@ -17,13 +18,17 @@ var router = new VueRouter({
         {
             path: '/',
             component: Home
+        },
+        {
+            path: '/add',
+            component: Add
         }
     ]
 })
 
 new Vue({
     el: '#app',
-    router,
+    router: router,
     template: '<App/>',
     components: { App }
 })
