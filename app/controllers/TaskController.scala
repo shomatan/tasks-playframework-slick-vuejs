@@ -34,13 +34,15 @@ class TaskController @Inject()(taskRepository: TaskRepository) extends Controlle
     mapping(
       "id" -> optional(longNumber),
       "title" -> nonEmptyText,
-      "createdAt" -> ignored[DateTime](DateTime.now()))(Task.apply)(Task.unapply))
+      "createdAt" -> ignored[DateTime](DateTime.now())
+    )(Task.apply)(Task.unapply))
 
   def addTask = Action.async { implicit request =>
     Logger.debug("In addTask")
 
-    val task: Task = taskForm.bindFromRequest.get
-    taskRepository.insert(task).map(_ => Ok("success"))
+    taskRepository.insert(
+      taskForm.bindFromRequest.get.copy(createdAt = DateTime.now())
+    ).map(_ => Ok("success"))
 
   }
 
