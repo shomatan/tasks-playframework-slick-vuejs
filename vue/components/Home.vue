@@ -21,7 +21,7 @@
                 <li><a href="https://vuejs.org/">Vue.js</a></li>
                 <ul>
                     <li><a href="http://router.vuejs.org/en/index.html">Vue Router</a></li>
-                    <li><a href="https://github.com/vuejs/vue-resource">Vue Resource</a></li>
+                    <li><a href="https://github.com/mzabriskie/axios">axios</a></li>
                 </ul>
                 <li><a href="https://nodejs.org/en">Node.js</a></li>
                 <li><a href="https://webpack.github.io">Webpack</a></li>
@@ -102,7 +102,7 @@
     }
 
     .logo {
-        width: 200px;
+        width: 136px;
         height: 136px;
         float: right;
     }
