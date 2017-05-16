@@ -1,33 +1,8 @@
 <template>
     <div>
         <div class="heading">
-            <h1>My TODO!</h1>
+            <h1>My tasks</h1>
             <img class="logo" src="../images/top.png" />
-        </div>
-
-        <div class="alert alert-info">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <p>
-                This application is used to showcase the Playframework as well as Vue.js
-                while adding tasks. This application makes use of the following:
-            </p>
-            <ul>
-                <li><a href="http://www.playframework.com">Playframework 2.5</a></li>
-                <ul>
-                    <li><a href="https://www.playframework.com/documentation/2.5.x/ScalaJavascriptRouting">Javascript Routing</a></li>
-                    <li><a href="https://www.playframework.com/documentation/2.5.x/ScalaJsonAutomated">JSON Automated Mapping</a></li>
-                    <li><a href="https://www.playframework.com/documentation/2.5.x/ScalaForms">Scala Forms</a></li>
-                </ul>
-                <li><a href="https://vuejs.org/">Vue.js</a></li>
-                <ul>
-                    <li><a href="http://router.vuejs.org/en/index.html">Vue Router</a></li>
-                    <li><a href="https://github.com/mzabriskie/axios">axios</a></li>
-                </ul>
-                <li><a href="https://nodejs.org/en">Node.js</a></li>
-                <li><a href="https://webpack.github.io">Webpack</a></li>
-                <li><a href="http://www.bootstrap.com">Bootstrap</a></li>
-                <li><a href="http://www.slick.typesafe.com">Slick</a></li>
-            </ul>
         </div>
         <h2>{{ tasks.length }} tasks found</h2>
         <div>
