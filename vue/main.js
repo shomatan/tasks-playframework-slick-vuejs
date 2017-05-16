@@ -5,6 +5,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import Home from './components/Home.vue'
 import Add from './components/task/Add.vue'
+import Edit from './components/task/Edit.vue'
 
 import VueRouter from 'vue-router'
 
@@ -16,12 +17,18 @@ Vue.use(VueRouter)
 var router = new VueRouter({
     routes: [
         {
+            name: 'home',
             path: '/',
             component: Home
         },
         {
             path: '/add',
             component: Add
+        },
+        {
+            name: 'edit',
+            path: '/edit/:taskId',
+            component: Edit
         }
     ]
 })

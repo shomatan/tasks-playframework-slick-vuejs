@@ -41,7 +41,7 @@
                     </tr>
                     </thead>
                     <tbody v-for="p in tasks">
-                    <tr>
+                    <tr @click="edit(p.id)">
                         <td>{{ p.title }}</td>
                         <td>{{ p.createdAt }}</td>
                     </tr>
@@ -86,7 +86,11 @@
                         self.fetchError = error
                         self.isLoading = false
                     })
-            }
+            },
+            edit: function (id) {
+                console.log("id:" + id);
+                this.$router.push({ name: 'edit', params : { taskId: id }} );
+            },
         }
     }
 </script>

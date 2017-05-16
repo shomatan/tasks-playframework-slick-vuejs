@@ -43,4 +43,25 @@ class TaskController @Inject()(taskRepository: TaskRepository) extends Controlle
     taskRepository.insert(task).map(_ => Ok("success"))
 
   }
+
+  def edit(id: Long) = Action.async { implicit request =>
+    val task = taskRepository.findById(id)
+
+    task.map { case (ph) =>
+      ph match {
+        case Some(p) => {
+          val json = Json.toJson(p)
+          Ok(json)
+        }
+        case None => Ok("error")
+      }
+    }
+  }
+
+  def editTask(id: Long) = Action.async { implicit request =>
+    Logger.debug("In editTask")
+
+    val task: Task = taskForm.bindFromRequest.get
+    taskRepository.update(id, task).map(_ => Ok("success"))
+  }
 }

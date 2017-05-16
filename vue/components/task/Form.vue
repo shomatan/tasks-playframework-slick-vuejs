@@ -15,12 +15,24 @@
     import axios from 'axios';
 
     export default {
-        created: function () {
-
-        },
         data: function () {
             return {
                 task: { title: '' }
+            }
+        },
+        created: function () {
+            var self = this
+            if (typeof self.$route.params.taskId !== 'undefined') {
+                var m = jsRoutes.controllers.TaskController.edit(this.$route.params.taskId);
+                console.log("hello lady:" + m.url)
+
+                axios.get(m.url)
+                    .then(function (response) {
+                        self.task = response.data
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
             }
         },
         methods: {
@@ -41,6 +53,7 @@
                 axios.post(m(self.task).url, self.task)
                     .then(function (response) {
                         console.log("Task saved!")
+                        self.$router.push({ name: 'home' } );
                     })
                     .catch(function (error) {
                         console.log(error)
