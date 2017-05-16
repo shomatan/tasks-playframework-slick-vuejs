@@ -43,7 +43,7 @@
                     <tbody v-for="p in tasks">
                     <tr @click="edit(p.id)">
                         <td>{{ p.title }}</td>
-                        <td>{{ p.createdAt }}</td>
+                        <td>{{ p.createdAt | formatDate }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -54,6 +54,7 @@
 
 <script>
     import axios from 'axios';
+    import moment from 'moment';
 
     export default {
         data: function () {
@@ -70,6 +71,12 @@
 
         watch: {
             '$route': 'fetchData'
+        },
+
+        filters: {
+            formatDate: function (date) {
+                return moment(date).format('YYYY/MM/DD HH:mm:ss');
+            }
         },
 
         methods: {
