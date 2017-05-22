@@ -1,4 +1,5 @@
 var path = require('path')
+const webpack = require('webpack');
 
 module.exports = {
   entry: './vue/main.js',
@@ -32,5 +33,9 @@ module.exports = {
     alias: {
         vue: 'vue/dist/vue.common.js'
     }
-  }
+  },
+  plugins: [
+      // load `moment/locale/ja.js`
+      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /ja/),
+  ]
 }
