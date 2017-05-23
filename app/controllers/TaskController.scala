@@ -6,17 +6,43 @@ import models.Task
 import org.joda.time.DateTime
 import play.api.Logger
 import play.api.data.Form
-import play.api.data.Forms.{ignored, longNumber, mapping, nonEmptyText, optional}
-import play.api.libs.json.Json
+import play.api.data.Forms._
+import play.api.libs.json._
+import play.api.libs.functional.syntax._
 import play.api.mvc.{Action, Controller}
 import repositories.TaskRepository
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+
+object JsonController {
+  case class TaskForm(id: Option[Long], title: String, content: String, deadlineAt: DateTime)
+
+  implicit val yourJodaDateReads = Reads.jodaDateReads("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+  implicit val yourJodaDateWrites = Writes.jodaDateWrites("yyyy-MM-dd'T'HH:mm:ss.SSSZ'")
+
+  implicit val taskFormFormat = (
+      (__ \ "id"       ).readNullable[Long] and
+      (__ \ "title"    ).read[String]       and
+      (__ \ "content"  ).read[String]       and
+      //(__ \ "createdAt").read[DateTime] and
+      (__ \ "deadlineAt").read[DateTime]
+    )(TaskForm)
+
+  implicit val tasksRowWritesWrites = (
+      (__ \ "id"       ).writeNullable[Long] and
+      (__ \ "title"    ).write[String]       and
+      (__ \ "content"  ).write[String]       and
+      (__ \ "createdAt").write[DateTime]     and
+      (__ \ "deadlineAt").write[DateTime]
+    )(unlift(Task.unapply))
+}
 
 @Singleton
 class TaskController @Inject()(taskRepository: TaskRepository) extends Controller {
 
-  implicit val todoWrites = Json.writes[Task]
+  import JsonController._
+
 
   def index = Action {
     Ok(views.html.index())
@@ -34,16 +60,27 @@ class TaskController @Inject()(taskRepository: TaskRepository) extends Controlle
     mapping(
       "id" -> optional(longNumber),
       "title" -> nonEmptyText,
-      "createdAt" -> ignored[DateTime](DateTime.now())
-    )(Task.apply)(Task.unapply))
+      "content" -> nonEmptyText,
+      "deadlineAt" -> ignored[DateTime](DateTime.now())
+    )(TaskForm.apply)(TaskForm.unapply))
 
-  def addTask = Action.async { implicit request =>
+  def addTask = Action.async(parse.json) { implicit request =>
     Logger.debug("In addTask")
 
-    taskRepository.insert(
-      taskForm.bindFromRequest.get.copy(createdAt = DateTime.now())
-    ).map(_ => Ok("success"))
+    request.body.validate[TaskForm].map { form =>
 
+      val task = Task(title = form.title, content = form.content, deadlineAt = form.deadlineAt)
+
+      Logger.debug(task.toString)
+
+      taskRepository.insert(
+        task
+      ).map(_ => Ok(Json.obj("result" -> "success")))
+    }.recoverTotal { e =>
+      Future {
+        BadRequest(Json.obj("result" ->"failure", "error" -> JsError.toJson(e)))
+      }
+    }
   }
 
   def edit(id: Long) = Action.async { implicit request =>
@@ -63,7 +100,8 @@ class TaskController @Inject()(taskRepository: TaskRepository) extends Controlle
   def editTask(id: Long) = Action.async { implicit request =>
     Logger.debug("In editTask")
 
-    val task: Task = taskForm.bindFromRequest.get
+    val form: TaskForm = taskForm.bindFromRequest.get
+    val task = Task(title = form.title, content = form.content, deadlineAt = form.deadlineAt)
     taskRepository.update(id, task).map(_ => Ok("success"))
   }
 

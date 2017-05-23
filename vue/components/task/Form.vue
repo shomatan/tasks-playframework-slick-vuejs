@@ -3,6 +3,10 @@
         <div class="form-group">
             <label for="title-txt">Title</label>
             <input id="title-txt" name="title" type="text" class="form-control" v-model="task.title" placeholder="title"/>
+            <label for="content-txt">Content</label>
+            <textarea id="content-txt" name="content" type="text" class="form-control" v-model="task.content" placeholder="content"/>
+            <label for="deadlineAt-date">Deadline at</label>
+            <el-date-picker id="deadlineAt-date" name="deadlineAt" v-model="task.deadlineAt" type="datetime" placeholder="Select date and time"></el-date-picker>
         </div>
         <div class="form-group">
             <input type="submit" class="btn btn-primary" @click="save()" />
@@ -17,9 +21,14 @@
     export default {
         data: function () {
             return {
-                task: { title: '' }
+                task: {
+                    title: '',
+                    content: "",
+                    deadlineAt: ""
+                }
             }
         },
+
         created: function () {
             var self = this
             if (typeof self.$route.params.taskId !== 'undefined') {
@@ -35,6 +44,7 @@
                     })
             }
         },
+
         methods: {
             save () {
                 var self = this

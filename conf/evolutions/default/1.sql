@@ -3,7 +3,9 @@
 create table tasks (
   id bigint(20) not null auto_increment,
   title varchar(255) not null,
-  created_at datetime not null default current_timestamp,
+  content text not null,
+  created_at bigint not null,
+  deadline_at bigint not null,
   primary key (id)
 );
 

@@ -39,15 +39,18 @@ class TaskRepository @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   }
 
   private class TaskTable(tag: Tag) extends Table[Task](tag, "tasks") {
-    implicit def dateTime = MappedColumnType.base[DateTime, Timestamp] (
-      dt => new Timestamp(dt.getMillis), ts => new DateTime(ts.getTime)
-    )
+    //implicit def dateTime = MappedColumnType.base[DateTime, Timestamp] (
+    //  dt => new Timestamp(dt.getMillis), ts => new DateTime(ts.getTime)
+    //)
+    implicit val dateColumnType = MappedColumnType.base[DateTime, Long](d => d.getMillis, d => new DateTime(d))
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def title = column[String]("title")
+    def content = column[String]("content")
     def createdAt = column[DateTime]("created_at")
+    def deadlineAt = column[DateTime]("deadline_at")
 
-    def * = (id.?, title, createdAt) <> (Task.tupled, Task.unapply _)
+    def * = (id.?, title, content, createdAt, deadlineAt) <> (Task.tupled, Task.unapply _)
   }
 
 }

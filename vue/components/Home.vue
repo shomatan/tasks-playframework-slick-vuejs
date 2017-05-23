@@ -12,13 +12,17 @@
                     <thead>
                     <tr>
                         <th>Title</th>
+                        <th>Content</th>
                         <th>Created at</th>
+                        <th>Deadline at</th>
                     </tr>
                     </thead>
                     <tbody v-for="p in tasks">
                     <tr @click="edit(p.id)">
                         <td>{{ p.title }}</td>
+                        <td>{{ p.content }}</td>
                         <td>{{ p.createdAt | formatDate }}</td>
+                        <td>{{ p.deadlineAt | formatDate }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -62,7 +66,7 @@
                     .then(function (response) {
                         self.tasks = response.data
                         self.isLoading = false
-
+                        console.log("tasks: " + JSON.stringify(self.tasks));
                     })
                     .catch(function (error) {
                         self.fetchError = error
