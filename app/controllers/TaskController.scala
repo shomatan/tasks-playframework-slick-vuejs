@@ -15,7 +15,6 @@ import repositories.TaskRepository
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object JsonController {
   case class TaskForm(id: Option[Long], title: String, content: String, deadlineAt: DateTime)
 
   implicit val yourJodaDateReads = Reads.jodaDateReads("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
@@ -40,9 +39,6 @@ object JsonController {
 
 @Singleton
 class TaskController @Inject()(taskRepository: TaskRepository) extends Controller {
-
-  import JsonController._
-
 
   def index = Action {
     Ok(views.html.index())
