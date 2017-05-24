@@ -15,16 +15,17 @@ import repositories.TaskRepository
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-  case class TaskForm(id: Option[Long], title: String, content: String, deadlineAt: DateTime)
+object TaskJsonController {
+  case class TaskForm(id: Option[Long], title: String, content: String, createdAt: Option[DateTime], deadlineAt: DateTime)
 
-  implicit val yourJodaDateReads = Reads.jodaDateReads("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-  implicit val yourJodaDateWrites = Writes.jodaDateWrites("yyyy-MM-dd'T'HH:mm:ss.SSSZ'")
+  implicit val yourJodaDateReads = Reads.jodaDateReads("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+  implicit val yourJodaDateWrites = Writes.jodaDateWrites("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 
   implicit val taskFormFormat = (
       (__ \ "id"       ).readNullable[Long] and
       (__ \ "title"    ).read[String]       and
       (__ \ "content"  ).read[String]       and
-      //(__ \ "createdAt").read[DateTime] and
+      (__ \ "createdAt").readNullable[DateTime] and
       (__ \ "deadlineAt").read[DateTime]
     )(TaskForm)
 
@@ -40,6 +41,8 @@ import scala.concurrent.Future
 @Singleton
 class TaskController @Inject()(taskRepository: TaskRepository) extends Controller {
 
+  import TaskJsonController._
+  
   def index = Action {
     Ok(views.html.index())
   }
@@ -57,7 +60,8 @@ class TaskController @Inject()(taskRepository: TaskRepository) extends Controlle
       "id" -> optional(longNumber),
       "title" -> nonEmptyText,
       "content" -> nonEmptyText,
-      "deadlineAt" -> ignored[DateTime](DateTime.now())
+      "createdAt" -> optional(jodaDate),
+      "deadlineAt" -> jodaDate
     )(TaskForm.apply)(TaskForm.unapply))
 
   def addTask = Action.async(parse.json) { implicit request =>
@@ -93,12 +97,21 @@ class TaskController @Inject()(taskRepository: TaskRepository) extends Controlle
     }
   }
 
-  def editTask(id: Long) = Action.async { implicit request =>
+  def editTask(id: Long) = Action.async(parse.json) { implicit request =>
     Logger.debug("In editTask")
 
-    val form: TaskForm = taskForm.bindFromRequest.get
-    val task = Task(title = form.title, content = form.content, deadlineAt = form.deadlineAt)
-    taskRepository.update(id, task).map(_ => Ok("success"))
+    request.body.validate[TaskForm].map { form =>
+
+      val task = Task(title = form.title, content = form.content, deadlineAt = form.deadlineAt)
+
+      Logger.debug(task.toString)
+
+      taskRepository.update(id, task).map(_ => Ok("success"))
+    }.recoverTotal { e =>
+      Future {
+        BadRequest(Json.obj("result" ->"failure", "error" -> JsError.toJson(e)))
+      }
+    }
   }
 
   def deleteTask(id: Long) = Action.async { implicit rs =>
